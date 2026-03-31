@@ -26,7 +26,7 @@ spectra currently exists. GASP fills that gap.
 
 ## Key references
 - Gaia SSO spectra: Galluccio et al. (2022) arXiv:2206.12174
-- NUV correction: Tinaut-Ruano et al. (2023) DOI:10.1051/0004-6361/202245218
+- NUV correction: Tinaut-Ruano et al. (2023) DOI:10.1051/0004-6361/202245134
 - NUV primitive asteroids: Tinaut-Ruano et al. (2024) arXiv:2403.10321
 - SDSS MOC4: Ivezic et al. (2001) AJ 122, 2749
 

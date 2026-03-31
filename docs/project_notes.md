@@ -21,7 +21,7 @@
 - Raw data is NEVER overwritten — always write to new files
 - All parquet files use snappy compression (pyarrow default)
 - NUV correction factors must be taken from Table 2 of
-  Tinaut-Ruano et al. (2023), DOI:10.1051/0004-6361/202245218
+  Tinaut-Ruano et al. (2023), DOI:10.1051/0004-6361/202245134
 - rocks caches automatically — do not delete ~/.cache/rocks/
 
 ## Publication plan
