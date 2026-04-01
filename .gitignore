@@ -4,5 +4,13 @@ __pycache__/
 .ipynb_checkpoints/
 *.pyc
 *.pyo
-figures/
+/figures/
 .DS_Store
+
+# RNAAS LaTeX build + AAS bundle (download locally)
+docs/aastexv631.tar.gz
+docs/aastex631/
+docs/*.aux
+docs/*.log
+docs/*.out
+docs/*.synctex.gz
