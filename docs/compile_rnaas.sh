@@ -4,6 +4,11 @@ set -euo pipefail
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR"
 
+# macOS: MacTeX installs here; GUI login adds PATH, Terminal often does not.
+if [[ "$(uname -s)" == "Darwin" ]] && [[ -d "/Library/TeX/texbin" ]]; then
+  export PATH="/Library/TeX/texbin:${PATH}"
+fi
+
 if [[ ! -d aastex631 ]]; then
   echo "ERROR: aastex631/ not found. Extract with:"
   echo "  tar -xzf aastexv631.tar.gz"
@@ -22,7 +27,9 @@ fi
 export TEXINPUTS="${DIR}/aastex631//:${TEXINPUTS:-}"
 
 if ! command -v pdflatex >/dev/null 2>&1; then
-  echo "ERROR: pdflatex not found. Install MacTeX or TeX Live."
+  echo "ERROR: pdflatex not found."
+  echo "  Install MacTeX: https://www.tug.org/mactex/  (then restart Terminal)"
+  echo "  Or add to ~/.zshrc: export PATH=\"/Library/TeX/texbin:\$PATH\""
   exit 1
 fi
 
