@@ -15,6 +15,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import requests
+from tqdm import tqdm
 import astropy.units as u  # noqa: F401 — common with Vizier workflows
 from astroquery.vizier import Vizier
 
@@ -27,8 +28,13 @@ OUTPUT_FILE = FINAL_DIR / "gasp_catalog_v1.parquet"
 LOG_FILE = FINAL_DIR / "enrichment_log.json"
 
 TAXONOMY_FILE = RAW_DIR / "taxonomy_mahlke2022.parquet"
-FAMILIES_FILE = RAW_DIR / "families_nesvorny2015.parquet"
+FAMILIES_FILE = RAW_DIR / "families_nesvorny_pds4.parquet"
 NEOWISE_FILE = RAW_DIR / "neowise_masiero2017.parquet"
+
+FAMILIES_PDS_LISTING_URL = (
+    "https://sbnarchive.psi.edu/pds4/non_mission/ast.nesvorny.families_V2_0/data/families_2015/"
+)
+FAMILIES_TAB_HREF_RE = re.compile(r'href="(\d+_[\w]+\.tab)"')
 
 TAXONOMY_URL_PRIMARY = (
     "https://raw.githubusercontent.com/maxmahlke/classy/main/classy/data/taxonomy.csv"
@@ -36,10 +42,6 @@ TAXONOMY_URL_PRIMARY = (
 TAXONOMY_URL_FALLBACK = (
     "https://raw.githubusercontent.com/maxmahlke/classy/main/classy/data/nironly_1_classified.csv"
 )
-
-NESVORNY_README_URL = "https://cdsarc.cds.unistra.fr/ftp/J/AJ/150/48/ReadMe"
-NESVORNY_TABLE_URL = "https://cdsarc.cds.unistra.fr/ftp/J/AJ/150/48/table1.dat"
-
 
 def _http_get(url: str, timeout: int = 120) -> bytes:
     r = requests.get(url, timeout=timeout, headers={"User-Agent": "GASP/1.0 (enrich_static)"})
@@ -92,74 +94,106 @@ def load_or_build_taxonomy() -> pd.DataFrame:
     return out
 
 
-def _parse_nesvorny_fixed_width(raw: str) -> pd.DataFrame:
-    """Best-effort parse of CDS table1.dat (Nesvorný et al. 2015) from raw text."""
-    lines = [ln for ln in raw.splitlines() if ln.strip() and not ln.strip().startswith("#")]
-    if not lines:
-        raise ValueError("empty table")
+def _family_display_name_from_stem_suffix(name_part: str) -> str:
+    """e.g. nysa_polana → Nysa-Polana; vesta → Vesta."""
+    hyphenated = name_part.replace("_", "-")
+    return "-".join(segment.title() for segment in hyphenated.split("-"))
 
-    rows = []
-    for ln in lines:
-        parts = re.split(r"\s+", ln.strip())
-        if len(parts) < 2:
-            continue
-        nums = [p for p in parts if re.fullmatch(r"\d+", p)]
-        if not nums:
-            continue
-        num = int(nums[0])
-        if num <= 0:
-            continue
-        fam = parts[-1] if len(parts) > 1 else ""
-        rows.append((num, fam))
 
-    df = pd.DataFrame(rows, columns=["number_mp", "family"])
-    df = df.drop_duplicates(subset=["number_mp"], keep="first")
-    return df
+def _parse_family_tab_filename(filename: str) -> tuple[int, str]:
+    """401_vesta.tab → (401, 'Vesta')."""
+    stem = Path(filename).stem
+    m = re.match(r"^(\d+)_(.+)$", stem)
+    if not m:
+        raise ValueError(f"Unexpected family .tab filename: {filename}")
+    return int(m.group(1)), _family_display_name_from_stem_suffix(m.group(2))
+
+
+def _list_pds_family_tab_files() -> list[str]:
+    r = requests.get(
+        FAMILIES_PDS_LISTING_URL,
+        timeout=30,
+        headers={"User-Agent": "GASP/1.0 (enrich_static)"},
+    )
+    r.raise_for_status()
+    names = sorted(set(FAMILIES_TAB_HREF_RE.findall(r.text)))
+    return names
+
+
+def _mpc_from_family_tab_line(line: str) -> int | None:
+    s = line.strip()
+    if not s or s.startswith("#"):
+        return None
+    token = s.split()[0]
+    try:
+        n = int(token)
+    except ValueError:
+        return None
+    return n if n > 0 else None
 
 
 def load_or_build_families() -> tuple[pd.DataFrame, str]:
+    src = (
+        "Nesvorný et al. (2015) PDS4 ast.nesvorny.families_V2_0 families_2015/ "
+        "(PSI SBN archive)"
+    )
     if FAMILIES_FILE.is_file():
-        return pd.read_parquet(FAMILIES_FILE, engine="pyarrow"), "cached_parquet"
+        df = pd.read_parquet(FAMILIES_FILE, engine="pyarrow")
+        n_u = int(df["number_mp"].nunique())
+        n_f = int(df["family"].nunique(dropna=True))
+        n_v = int((df["family"] == "Vesta").sum())
+        n_fl = int((df["family"] == "Flora").sum())
+        n_np = int((df["family"] == "Nysa-Polana").sum())
+        print(f"Found {n_f} family files (cached)")
+        print(f"Family membership loaded: {n_u} unique asteroids")
+        print(f"Families represented: {n_f}")
+        print(f"Largest families: Vesta={n_v}, Flora={n_fl}, Nysa-Polana={n_np}")
+        return df, "cached_parquet"
 
-    notes = []
-    try:
-        _http_get(NESVORNY_README_URL, timeout=60)
-        notes.append("ReadMe fetched")
-    except Exception:
-        pass
+    tab_files = _list_pds_family_tab_files()
+    n_files = len(tab_files)
+    print(f"Found {n_files} family files")
+    if n_files == 0:
+        raise RuntimeError("No family .tab files found in PDS listing")
 
-    try:
-        raw = _http_get(NESVORNY_TABLE_URL, timeout=300).decode("ascii", errors="replace")
-        df = _parse_nesvorny_fixed_width(raw)
-        RAW_DIR.mkdir(parents=True, exist_ok=True)
-        df.to_parquet(FAMILIES_FILE, engine="pyarrow", compression="snappy")
-        n_fam = df["family"].nunique(dropna=True)
-        print(
-            f"Family catalog: {len(df)} asteroids in {n_fam} families "
-            f"(Nesvorný CDS table1.dat → {FAMILIES_FILE})"
-        )
-        return df, "Nesvorný et al. (2015) CDS J/AJ/150/48"
-    except Exception as e1:
-        warnings.warn(f"Nesvorný CDS download failed ({e1}); using classy family_name fallback.")
+    records: list[dict[str, int | str]] = []
+    for fn in tqdm(tab_files, desc="Families PDS", unit="file"):
+        family_id, family_name = _parse_family_tab_filename(fn)
+        url = FAMILIES_PDS_LISTING_URL + fn
+        resp = requests.get(url, timeout=30, headers={"User-Agent": "GASP/1.0 (enrich_static)"})
+        resp.raise_for_status()
+        for line in resp.text.splitlines():
+            mpc = _mpc_from_family_tab_line(line)
+            if mpc is None:
+                continue
+            records.append(
+                {"number_mp": mpc, "family": family_name, "family_id": family_id}
+            )
+        time.sleep(0.1)
 
-    text = _http_get(TAXONOMY_URL_FALLBACK, timeout=600).decode("utf-8", errors="replace")
-    dfc = pd.read_csv(io.StringIO(text))
-    if "number" not in dfc.columns or "family_name" not in dfc.columns:
-        raise RuntimeError("Fallback classy CSV missing number/family_name for families")
-    df = dfc[["number", "family_name"]].rename(columns={"number": "number_mp", "family_name": "family"})
-    df["number_mp"] = pd.to_numeric(df["number_mp"], errors="coerce").astype("Int64")
-    df = df[df["number_mp"].notna() & (df["number_mp"] > 0)].copy()
+    df = pd.DataFrame.from_records(records)
+    if df.empty:
+        raise RuntimeError("PDS family membership parse produced no rows")
+
+    df = df.sort_values("family_id", ascending=True)
+    df = df.drop_duplicates(subset=["number_mp"], keep="last")
     df["number_mp"] = df["number_mp"].astype(np.int64)
-    df["family"] = df["family"].astype(str).replace({"nan": ""})
-    df = df[df["family"].str.len() > 0].drop_duplicates(subset=["number_mp"], keep="first")
+    df["family_id"] = df["family_id"].astype(np.int64)
+
+    n_unique = len(df)
+    n_families = int(df["family"].nunique(dropna=True))
+    n_v = int((df["family"] == "Vesta").sum())
+    n_fl = int((df["family"] == "Flora").sum())
+    n_np = int((df["family"] == "Nysa-Polana").sum())
+
+    print(f"Family membership loaded: {n_unique} unique asteroids")
+    print(f"Families represented: {n_families}")
+    print(f"Largest families: Vesta={n_v}, Flora={n_fl}, Nysa-Polana={n_np}")
+
     RAW_DIR.mkdir(parents=True, exist_ok=True)
     df.to_parquet(FAMILIES_FILE, engine="pyarrow", compression="snappy")
-    n_fam = df["family"].nunique(dropna=True)
-    print(
-        f"Family catalog: {len(df)} asteroids in {n_fam} families "
-        f"(fallback Mahlke classy family_name → {FAMILIES_FILE})"
-    )
-    return df, "Mahlke et al. (2022) classy family_name (Nesvorný CDS unavailable)"
+    print(f"Saved family cache: {FAMILIES_FILE}")
+    return df, src
 
 
 def load_or_build_neowise() -> tuple[pd.DataFrame, str]:
