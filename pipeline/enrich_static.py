@@ -276,10 +276,12 @@ def main() -> int:
     with_alb = n_alb
     with_dia = n_dia
     with_all = int(
-        df["taxonomy"].notna()
-        & df["family"].notna()
-        & df["albedo"].notna()
-        & df["diameter_km"].notna()
+        (
+            df["taxonomy"].notna()
+            & df["family"].notna()
+            & df["albedo"].notna()
+            & df["diameter_km"].notna()
+        ).sum()
     )
 
     print()
