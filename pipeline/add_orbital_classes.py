@@ -25,6 +25,7 @@ except ImportError:
 FINAL_DIR = Path("data/final")
 RAW_DIR = Path("data/raw")
 INPUT_FILE = FINAL_DIR / "gasp_catalog_v1.parquet"
+OUTPUT_FILE = INPUT_FILE
 BACKUP_ORBITAL = FINAL_DIR / "gasp_catalog_v1_pre_orbital.parquet"
 MPC_CACHE = RAW_DIR / "mpc_orbital_classes.parquet"
 LOG_FILE = FINAL_DIR / "orbital_classes_log.json"
