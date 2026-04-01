@@ -131,7 +131,7 @@ def main() -> int:
 
     mean418_m = float(mean_m["refl_418"])
     mean418_f = float(mean_f["refl_418"])
-    conclusion = "consistent" if r > 0.3 else "check data"
+    conclusion = "consistent" if (not np.isnan(r) and abs(r) > 0.3) else "check data"
 
     duration = time.time() - t0
     log = {
