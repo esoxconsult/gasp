@@ -9,7 +9,7 @@ an AI. No institutional affiliation required.
 
 ## What GASP produces
 
-**gasp_catalog_v1.parquet** — 19,190 asteroids with:
+**gasp_catalog_v1.parquet** — 19,190 asteroids, 70 columns with:
 - Gaia DR3 reflectance spectra (16 bands, 374–1034 nm)
 - NUV correction applied (Tinaut-Ruano et al. 2023)
 - SDSS MOC4 photometry (u, g, r, i, z, a*)
@@ -66,6 +66,7 @@ python pipeline/compute_features.py
 | Property | Value |
 |----------|-------|
 | Asteroids | 19,190 |
+| Columns | 70 |
 | Spectral bands | 16 (374–1034 nm, NUV-corrected) |
 | SDSS photometry | u, g, r, i, z, a* |
 | Family coverage | 39.3% (Nesvorný 2015, 117 families) |
