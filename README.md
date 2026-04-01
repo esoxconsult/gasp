@@ -159,5 +159,5 @@ Data derived from:
 
 ## Author
 
-Werner FHS / ESOX Beratungs- & Management GmbH (Austria)
+Werner Scheibenpflug (Austria)
 Built with curiosity, a VPS, and Claude (Anthropic).

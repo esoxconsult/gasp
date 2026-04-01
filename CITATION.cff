@@ -1,0 +1,87 @@
+cff-version: 1.2.0
+message: "If you use GASP, please cite it as below."
+authors:
+  - family-names: "Scheibenpflug"
+    given-names: "Werner"
+    country: AT
+title: "GASP — Gaia Asteroid Spectral Pipeline"
+version: 1.1.0
+doi: 10.5281/zenodo.15366682
+date-released: "2026-04-01"
+url: "https://github.com/esoxconsult/gasp"
+license: MIT
+abstract: "A reproducible pipeline to download, correct, and
+  cross-match asteroid reflectance spectra from the ESA Gaia
+  DR3 archive. Produces a catalog of 19,190 asteroids with
+  NUV-corrected spectra, SDSS photometry, family membership,
+  orbital classification, and spectral slopes."
+keywords:
+  - asteroids
+  - spectroscopy
+  - Gaia
+  - SDSS
+  - planetary science
+  - open science
+references:
+  - type: article
+    authors:
+      - family-names: "Tinaut-Ruano"
+        given-names: "F."
+    title: "Asteroids reflectance from Gaia DR3: Artificial
+      reddening at near-UV wavelengths"
+    doi: "10.1051/0004-6361/202245134"
+    year: 2023
+    journal: "Astronomy & Astrophysics"
+  - type: article
+    authors:
+      - family-names: "Galluccio"
+        given-names: "L."
+    title: "Gaia Data Release 3: Reflectance spectra of
+      Solar System small bodies"
+    year: 2022
+    url: "https://arxiv.org/abs/2206.12174"
+  - type: article
+    authors:
+      - family-names: "Nesvorný"
+        given-names: "D."
+      - family-names: "Brož"
+        given-names: "M."
+      - family-names: "Carruba"
+        given-names: "V."
+    title: "Identification and Dynamical Properties of
+      Asteroid Families"
+    doi: "10.1088/0004-6256/150/2/48"
+    year: 2015
+    journal: "The Astronomical Journal"
+  - type: article
+    authors:
+      - family-names: "Mahlke"
+        given-names: "M."
+      - family-names: "Carry"
+        given-names: "B."
+      - family-names: "Mattei"
+        given-names: "P.-A."
+    title: "Asteroid taxonomy from spectrophotometry"
+    doi: "10.1051/0004-6361/202243587"
+    year: 2022
+    journal: "Astronomy & Astrophysics"
+  - type: article
+    authors:
+      - family-names: "Masiero"
+        given-names: "J. R."
+    title: "Main Belt Asteroids with WISE/NEOWISE"
+    doi: "10.1088/0004-637X/741/2/68"
+    year: 2011
+    journal: "The Astrophysical Journal"
+  - type: article
+    authors:
+      - family-names: "Zellner"
+        given-names: "B."
+      - family-names: "Tholen"
+        given-names: "D. J."
+      - family-names: "Tedesco"
+        given-names: "E. F."
+    title: "The eight-color asteroid survey: Results for
+      589 minor planets"
+    year: 1985
+    journal: "Icarus"
