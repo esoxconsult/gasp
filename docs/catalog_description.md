@@ -84,6 +84,11 @@ Corresponding error columns: err_374 … err_1034
 | family | Nesvorný et al. (2015) | 39.3% |
 | family_id | Nesvorný et al. (2015) | 39.3% |
 
+| Column | Description |
+|--------|-------------|
+| orbital_class | MPC orbital classification (raw MPC string, e.g. `MBA`, `Hungaria`, `Phocaea`, `TJN`, `CEN`). Source: mpcorb_extended.json (Minor Planet Center). Note: MPC uses specific designations for dynamically distinct populations (Hungaria, Phocaea, Hilda) that are subsets of the broader Main Belt — these are preserved as-is rather than mapped to generic codes. |
+| orbital_class_method | How the class was determined: `mpc_extended` (from mpcorb_extended.json, preferred) or `semi_major_axis_rule` (fallback) |
+
 ## Derived features
 
 | Column | Description |
