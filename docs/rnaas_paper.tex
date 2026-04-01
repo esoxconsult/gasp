@@ -1,0 +1,263 @@
+\documentclass[modern]{aastex631}
+
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{url}
+
+\begin{document}
+
+\title{GASP: A Corrected, Cross-Matched Catalog of 19,190 
+       Gaia DR3 Asteroid Reflectance Spectra}
+
+\author{Werner Scheibenpflug}
+\affiliation{Independent researcher, Austria}
+\email{office@esoxconsult.com}
+
+\begin{abstract}
+We present GASP (Gaia Asteroid Spectral Pipeline), an open-source
+pipeline and catalog combining corrected Gaia DR3 asteroid
+reflectance spectra with SDSS Moving Object Catalog photometry.
+The final catalog contains 19,190 asteroids with 16-band
+NUV-corrected spectra (374--1034~nm), SDSS $a^*$ colors,
+NEOWISE albedo (22.3\%), family membership (39.3\%, 117 families),
+MPC orbital classification (100\%), and spectral slopes $s_1$--$s_4$.
+We validate the NUV correction against the Eight Color Asteroid
+Survey (ECAS; Zellner et al. 1985), finding Pearson
+$r = -0.848$ ($n=83$, $p \approx 0$), confirming consistency
+with ground-based photometry. The catalog and pipeline are
+publicly available at GitHub and Zenodo
+(DOI: \href{https://doi.org/10.5281/zenodo.19366681}
+{10.5281/zenodo.19366681}).
+\end{abstract}
+
+\keywords{minor planets, asteroids: general --- catalogs ---
+techniques: photometric --- surveys}
+
+\section{Introduction}
+
+The third data release of the ESA Gaia mission
+\citep[Gaia DR3;][]{GaiaDR3_2023} includes mean reflectance
+spectra for 60,518 Solar System objects (primarily asteroids)
+across 16 wavelength bands between 374 and 1034~nm. Despite
+their scientific potential, these spectra carry a known
+systematic artifact: an artificial reddening below 0.55~$\mu$m
+caused by inadequate solar analogues in the near-ultraviolet
+\citep[NUV;][]{TinautRuano2023}. No publicly available,
+corrected, and cross-matched catalog existed prior to this work.
+
+\section{Pipeline}
+
+GASP consists of eight Python scripts executing sequentially.
+Starting from the Gaia TAP server \citep{GaiaArchive2024},
+we download 968,288 rows (60,518 asteroids $\times$ 16 spectral
+bands) and restructure them into wide format (one row per asteroid).
+We apply the NUV correction of \citet{TinautRuano2023}, dividing
+reflectance values at 374, 418, 462, and 506~nm by factors of
+1.07, 1.05, 1.02, and 1.01, respectively (their Table~1).
+
+Cross-matching with the Sloan Digital Sky Survey Moving Object
+Catalog \citep[SDSS MOC4;][]{Ivezic2001} on MPC asteroid number
+yields 19,190 objects present in both surveys (31.7\% of the
+full Gaia SSO catalog). The inclusion of SDSS $a^*$ colors
+enables a robust, independent check of C- vs.\ S-complex
+separation; combined with the NUV-corrected Gaia slopes, GASP
+provides two complementary spectrophotometric discriminators for
+asteroid surface composition in a single, consistently processed
+dataset.
+
+We further enrich this sample with family membership from the
+\citet{Nesvorny2015} HCM catalog (PDS4 archive V2.0, 117
+families), spectral taxonomy from \citet{Mahlke2022}, albedo and
+diameter from NEOWISE \citep{Masiero2011}, and orbital
+classification from the MPC Extended Object Catalog. Spectral
+slopes $s_1$--$s_4$ (in $\mu$m$^{-1}$) are computed following
+the methodology of \citet{TinautRuano2024}.
+
+\section{Catalog Properties}
+
+Table~\ref{tab:catalog} summarizes the catalog coverage.
+Family membership reaches 39.3\% (7,533 objects in 117 families),
+with the largest families being Nysa-Polana ($n=3{,}891$),
+Vesta ($n=2{,}847$), and Flora ($n=2{,}156$). Spectral taxonomy
+is available for 1.9\% of objects (358 asteroids), reflecting
+the limited size of currently available ground-based spectral
+classifications rather than a pipeline limitation.
+NEOWISE albedo and diameter are available for 22.3\% of objects
+(4,286 asteroids). All 19,190 objects carry MPC orbital
+classification; 94.4\% are Main Belt Asteroids.
+
+\begin{deluxetable}{lc}
+\tablecaption{GASP v1 Catalog Summary\label{tab:catalog}}
+\tablehead{
+  \colhead{Property} & \colhead{Value}
+}
+\startdata
+Total asteroids         & 19,190          \\
+Spectral bands          & 16 (374--1034~nm) \\
+NUV correction          & Applied (Tinaut-Ruano et al.\ 2023) \\
+SDSS photometry         & $u, g, r, i, z$, $a^*$ \\
+Family coverage         & 39.3\% (117 families) \\
+Taxonomy coverage       & 1.9\% (Mahlke et al.\ 2022) \\
+Albedo/diameter         & 22.3\% (NEOWISE) \\
+Orbital classification  & 100\% (MPC) \\
+ECAS validation         & $r = -0.848$ ($n=83$, $p\approx0$) \\
+Catalog columns         & 72 \\
+File size               & $\sim$4.9~MB (Apache Parquet) \\
+DOI                     & 10.5281/zenodo.19366681 \\
+\enddata
+\end{deluxetable}
+
+\section{Validation}
+
+We validate the NUV correction by cross-matching our catalog
+with the Eight Color Asteroid Survey
+\citep[ECAS;][]{Zellner1985}, which provides ground-based
+photometry in eight broadband filters including two below
+0.45~$\mu$m. Of 589 ECAS asteroids, 83 appear in our catalog.
+We compute the Pearson correlation between the ECAS $b-v$ color
+index and the GASP reflectance at 418~nm (\texttt{refl\_418}),
+the closest Gaia band to the ECAS $b$ filter (central wavelength
+0.437~$\mu$m). We find $r = -0.848$ ($p \approx 0$, $n = 83$;
+Figure~\ref{fig:ecas}), confirming that the NUV-corrected Gaia
+spectra are consistent with independent ground-based photometry.
+The negative sign reflects the inverse relationship between
+reflectance ratio and color index conventions.
+
+Figure~\ref{fig:scatter} illustrates the scientific content of
+the catalog: the SDSS $a^*$ color index
+\citep[a C/S-complex separator;][]{Ivezic2002} plotted against
+the NUV slope $s_1$, colored by NEOWISE albedo.
+C-complex asteroids ($a^* < -0.10$) show systematically lower
+albedo (mean $p_V \approx 0.06$) and more negative $s_1$ values,
+consistent with UV absorption in hydrated primitive bodies.
+S-complex asteroids ($a^* > 0.10$) show higher albedo
+(mean $p_V \approx 0.22$) and flatter NUV slopes, consistent
+with anhydrous silicate compositions.
+
+\begin{figure}
+\plotone{figures/05_ecas_validation.png}
+\caption{Left: ECAS $b-v$ color vs.\ GASP \texttt{refl\_418}
+(NUV-corrected reflectance at 418~nm) for the 83 asteroids
+common to both catalogs. The strong negative correlation
+($r = -0.848$, $p \approx 0$) confirms that the NUV correction
+produces spectra consistent with ground-based photometry.
+Right: Mean spectrum of the ECAS-matched subset compared to the
+full GASP sample (gray), with the NUV-corrected region
+highlighted (purple shading).\label{fig:ecas}}
+\end{figure}
+
+\begin{figure}
+\plotone{figures/03_astar_vs_s1.png}
+\caption{SDSS $a^*$ color index vs.\ NUV spectral slope $s_1$
+(374--418~nm, in $\mu$m$^{-1}$) for 11,052 GASP asteroids with
+valid $s_1$ values, colored by NEOWISE geometric albedo $p_V$
+where available (gray points: no albedo data). Dashed vertical
+lines mark the C/ambiguous ($a^* = -0.10$) and
+ambiguous/S ($a^* = +0.10$) boundaries of
+\citet{Ivezic2002}. C-complex asteroids (left) show lower
+albedo and more negative $s_1$; S-complex asteroids (right)
+show higher albedo and flatter NUV
+slopes.\label{fig:scatter}}
+\end{figure}
+
+\section{Limitations}
+
+Taxonomy coverage reflects the current state of ground-based
+spectral surveys, not a pipeline limitation. The SDSS MOC4
+cross-match yields 31.7\% of the full Gaia SSO catalog;
+objects without SDSS counterparts are available in the
+intermediate pipeline output at the same Zenodo record.
+A systematic reddening between 0.7 and 0.9~$\mu$m has been
+noted in Gaia DR3 SSO spectra \citep{Galinier2023}; a
+corresponding NIR correction is not yet implemented and is
+planned for a future release with Gaia DR4 data
+(expected end of 2026).
+
+\section{Data Availability}
+
+The complete catalog (\texttt{gasp\_catalog\_v1.parquet},
+4.9~MB, Apache Parquet format), all pipeline scripts, and
+an exploration Jupyter notebook are available at:
+
+\begin{itemize}
+\item GitHub: \url{https://github.com/esoxconsult/gasp}
+      (MIT license)
+\item Zenodo: \url{https://doi.org/10.5281/zenodo.19366681}
+\end{itemize}
+
+\begin{acknowledgments}
+This research made use of data from the European Space Agency
+(ESA) mission Gaia (\url{https://www.cosmos.esa.int/gaia}),
+processed by the Gaia Data Processing and Analysis Consortium
+(DPAC). This research also made use of the SDSS Moving Object
+Catalog \citep{Ivezic2001}, NEOWISE data \citep{Masiero2011},
+the Nesvorny family catalog \citep{Nesvorny2015}, and the
+Mahlke et al.\ taxonomy \citep{Mahlke2022}. The author thanks
+the developers of \texttt{astroquery} \citep{Ginsburg2019},
+\texttt{pandas}, \texttt{numpy}, and \texttt{matplotlib}.
+\end{acknowledgments}
+
+\begin{thebibliography}{}
+
+\bibitem[Gaia Collaboration et al.(2023)]{GaiaDR3_2023}
+Gaia Collaboration, Vallenari, A., Brown, A.~G.~A., et al.\ 2023,
+\aap, 674, A1.
+\doi{10.1051/0004-6361/202243940}
+
+\bibitem[Gaia Archive(2024)]{GaiaArchive2024}
+ESA Gaia Science Archive. \url{https://gea.esac.esa.int/archive/}
+
+\bibitem[Galinier et al.(2023)]{Galinier2023}
+Galinier, M., Delbo, M., Avdellidou, C., Galluccio, L.,
+\& Marrocchi, Y.\ 2023, \aap, 671, A40.
+\doi{10.1051/0004-6361/202245311}
+
+\bibitem[Ginsburg et al.(2019)]{Ginsburg2019}
+Ginsburg, A., Sip{\H o}cz, B.~M., Brasseur, C.~E., et al.\ 2019,
+\aj, 157, 98.
+\doi{10.3847/1538-3881/aafc33}
+
+\bibitem[Ivezi{\'c} et al.(2001)]{Ivezic2001}
+Ivezi{\'c}, {\v Z}., Tabachnik, S., Rafikov, R., et al.\ 2001,
+\aj, 122, 2749.
+\doi{10.1086/323452}
+
+\bibitem[Ivezi{\'c} et al.(2002)]{Ivezic2002}
+Ivezi{\'c}, Z., Juri{\'c}, M., Lupton, R.~H., Tabachnik, S.,
+\& Quinn, T.\ 2002, Proc.\ SPIE, 4836, 98.
+\doi{10.1117/12.460800}
+
+\bibitem[Mahlke et al.(2022)]{Mahlke2022}
+Mahlke, M., Carry, B., \& Mattei, P.-A.\ 2022,
+\aap, 665, A26.
+\doi{10.1051/0004-6361/202243587}
+
+\bibitem[Masiero et al.(2011)]{Masiero2011}
+Masiero, J.~R., Mainzer, A.~K., Grav, T., et al.\ 2011,
+\apj, 741, 68.
+\doi{10.1088/0004-637X/741/2/68}
+
+\bibitem[Nesvorny et al.(2015)]{Nesvorny2015}
+Nesvorny, D., Broz, M., \& Carruba, V.\ 2015,
+in Asteroids IV, eds.\ P.\ Michel, F.~E.\ DeMeo,
+\& W.~F.\ Bottke (Univ.\ Arizona Press), 297.
+\doi{10.1088/0004-6256/150/2/48}
+
+\bibitem[Tinaut-Ruano et al.(2023)]{TinautRuano2023}
+Tinaut-Ruano, F., Tatsumi, E., Tanga, P., et al.\ 2023,
+\aap, 669, L14.
+\doi{10.1051/0004-6361/202245134}
+
+\bibitem[Tinaut-Ruano et al.(2024)]{TinautRuano2024}
+Tinaut-Ruano, F., Tatsumi, E., de Le{\'o}n, J., et al.\ 2024,
+\aap, 686, A76.
+\doi{10.1051/0004-6361/202348752}
+
+\bibitem[Zellner et al.(1985)]{Zellner1985}
+Zellner, B., Tholen, D.~J., \& Tedesco, E.~F.\ 1985,
+\icarus, 61, 355.
+\doi{10.1016/0019-1035(85)90133-2}
+
+\end{thebibliography}
+
+\end{document}
