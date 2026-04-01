@@ -13,14 +13,17 @@ an AI. No institutional affiliation required.
 
 ## What GASP produces
 
-**gasp_catalog_v1.parquet** — 19,190 asteroids, 70 columns with:
-- Gaia DR3 reflectance spectra (16 bands, 374–1034 nm)
-- NUV correction applied (Tinaut-Ruano et al. 2023)
+**gasp_catalog_v1.parquet** — 19,190 asteroids, 72 columns with:
+- Gaia DR3 reflectance spectra (16 bands, 374–1034 nm, NUV-corrected)
 - SDSS MOC4 photometry (u, g, r, i, z, a*)
-- NEOWISE albedo and diameter (22% coverage)
-- Spectral taxonomy — Mahlke et al. 2022 (1.9% coverage)
-- Family membership — Nesvorný et al. 2015 PDS4 (39.3% coverage)
-- Spectral slopes s1–s4 and S/N quality flags
+- NEOWISE albedo and diameter (22.3% coverage)
+- Spectral taxonomy — Mahlke et al. 2022 (1.9%)
+- Family membership — Nesvorný et al. 2015 (39.3%, 117 families)
+- Orbital classification — MPC (orbital_class, 100%)
+- Spectral slopes s1–s4 (µm⁻¹, Tinaut-Ruano 2024 methodology)
+- S/N quality flags (nuv_snr_score 0–3)
+- SDSS C/S complex classification (sdss_complex)
+- ECAS-validated: Pearson r = −0.848 vs ground-truth NUV photometry
 
 ## Why this matters
 
@@ -44,7 +47,10 @@ families — all in one pipeline, fully documented.
 | 4 | nuv_correction.py | data/interim/gaia_sso_nuv_corrected.parquet |
 | 5 | crossmatch_sdss.py | data/interim/gaia_sdss_merged.parquet |
 | 6 | enrich_static.py | data/final/gasp_catalog_v1.parquet |
-| 7 | compute_features.py | adds slopes + quality flags |
+| 7 | compute_features.py | adds slopes, S/N flags, C/S class |
+| 8 | add_orbital_classes.py | adds orbital_class (MPC) |
+
+**Validation:** `pipeline/validate_ecas.py` — cross-validates NUV correction against ECAS (Zellner et al. 1985). Produces `figures/05_ecas_validation.png`.
 
 ## Quickstart
 ```bash
@@ -63,6 +69,7 @@ python pipeline/nuv_correction.py
 python pipeline/crossmatch_sdss.py
 python pipeline/enrich_static.py
 python pipeline/compute_features.py
+python pipeline/add_orbital_classes.py
 ```
 
 ## Catalog at a glance
@@ -70,14 +77,16 @@ python pipeline/compute_features.py
 | Property | Value |
 |----------|-------|
 | Asteroids | 19,190 |
-| Columns | 70 |
+| Columns | 72 |
 | Spectral bands | 16 (374–1034 nm, NUV-corrected) |
 | SDSS photometry | u, g, r, i, z, a* |
 | Family coverage | 39.3% (Nesvorný 2015, 117 families) |
 | Taxonomy coverage | 1.9% (Mahlke 2022) |
 | Albedo coverage | 22.3% (NEOWISE/Masiero 2011) |
-| File size | ~4.2 MB (parquet) |
-| Format | Apache Parquet, snappy compression |
+| Orbital classes | 100% (MPC extended catalog) |
+| ECAS validation | r = −0.848 (n=83, p≈0) |
+| File size | ~4.9 MB (parquet) |
+| DOI | 10.5281/zenodo.15366682 |
 
 ## Catalog columns
 
@@ -93,6 +102,7 @@ python pipeline/compute_features.py
 | NEOWISE | albedo, diameter_km |
 | Taxonomy | taxonomy (Mahlke et al. 2022) |
 | Family | family, family_id (Nesvorný et al. 2015) |
+| Orbital classification | orbital_class, orbital_class_method |
 | Spectral slopes | s1, s2, s3, s4 (µm⁻¹) |
 | Quality flags | nuv_snr_flag, nuv_snr_score, sdss_complex |
 
@@ -116,6 +126,14 @@ python pipeline/compute_features.py
   describe a systematic reddening between 0.7–0.9 µm.
   This correction is not yet implemented in GASP v1.
   Planned for v2 with Gaia DR4 data.
+
+- **ECAS validation**: Cross-matched with 589 ECAS asteroids
+  (Zellner et al. 1985); 83 objects in common. Pearson
+  correlation between ECAS b-v and GASP refl_418:
+  r = −0.848 (p ≈ 0), confirming the NUV correction
+  produces spectra consistent with ground-based photometry.
+  The negative sign reflects the inverse relationship between
+  reflectance ratio and color index conventions.
 
 ## References
 
