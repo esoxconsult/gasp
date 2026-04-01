@@ -75,14 +75,16 @@ def load_or_build_taxonomy() -> pd.DataFrame:
         if c in df.columns:
             sort_col = c
             break
+    df["number_mp"] = pd.to_numeric(df["number"], errors="coerce").astype("Int64")
+    df = df[df["number_mp"].notna() & (df["number_mp"] > 0)].copy()
+    df["number_mp"] = df["number_mp"].astype(np.int64)
     if sort_col:
         df = df.sort_values(sort_col, ascending=False)
-
-    out = df[["number", col_class]].rename(columns={"number": "number_mp", col_class: "taxonomy"})
-    out["number_mp"] = pd.to_numeric(out["number_mp"], errors="coerce").astype("Int64")
-    out = out[out["number_mp"].notna() & (out["number_mp"] > 0)].copy()
-    out["number_mp"] = out["number_mp"].astype(np.int64)
-    out = out.drop_duplicates(subset=["number_mp"], keep="first")
+    out = (
+        df.groupby("number_mp", as_index=False)
+        .agg({col_class: "first"})
+        .rename(columns={col_class: "taxonomy"})
+    )
 
     RAW_DIR.mkdir(parents=True, exist_ok=True)
     out.to_parquet(TAXONOMY_FILE, engine="pyarrow", compression="snappy")
@@ -262,8 +264,8 @@ def main() -> int:
             df = df.drop(columns=[c])
     df = pd.merge(df, df_neo[neo_cols], on="number_mp", how="left")
     n_neo = int((df["albedo"].notna() & df["diameter_km"].notna()).sum())
-    n_alb = int(df["albedo"].notna())
-    n_dia = int(df["diameter_km"].notna())
+    n_alb = int(df["albedo"].notna().sum())
+    n_dia = int(df["diameter_km"].notna().sum())
     print(f"NEOWISE matched (both D and pV): {n_neo} / {n0} ({100.0 * n_neo / n0:.2f}%)")
 
     def pct(x: int) -> float:
