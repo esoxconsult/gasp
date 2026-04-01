@@ -1,6 +1,6 @@
 # GASP — Gaia Asteroid Spectral Pipeline
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15366682.svg)](https://doi.org/10.5281/zenodo.15366682)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19366681.svg)](https://doi.org/10.5281/zenodo.19366681)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 
@@ -86,7 +86,7 @@ python pipeline/add_orbital_classes.py
 | Orbital classes | 100% (MPC extended catalog) |
 | ECAS validation | r = −0.848 (n=83, p≈0) |
 | File size | ~4.9 MB (parquet) |
-| DOI | 10.5281/zenodo.15366682 |
+| DOI | 10.5281/zenodo.19366681 |
 
 ## Catalog columns
 
