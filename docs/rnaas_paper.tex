@@ -123,16 +123,17 @@ spectra are consistent with independent ground-based photometry.
 The negative sign reflects the inverse relationship between
 reflectance ratio and color index conventions.
 
-Figure~\ref{fig:scatter} illustrates the scientific content of
-the catalog: the SDSS $a^*$ color index
-\citep[a C/S-complex separator;][]{Ivezic2002} plotted against
-the NUV slope $s_1$, colored by NEOWISE albedo.
-C-complex asteroids ($a^* < -0.10$) show systematically lower
-albedo (mean $p_V \approx 0.06$) and more negative $s_1$ values,
-consistent with UV absorption in hydrated primitive bodies.
-S-complex asteroids ($a^* > 0.10$) show higher albedo
-(mean $p_V \approx 0.22$) and flatter NUV slopes, consistent
-with anhydrous silicate compositions.
+The catalog illustrates the SDSS $a^*$ color index
+\citep[a C/S-complex separator;][]{Ivezic2002} plotted
+against the NUV slope $s_1$, colored by NEOWISE albedo.
+C-complex asteroids ($a^* < -0.10$) show lower albedo (mean $p_V \approx 0.06$) and more negative
+$s_1$ values, consistent with hydrated, UV-absorbing
+primitive material. S-complex asteroids ($a^* > 0.10$) show
+higher albedo (mean $p_V \approx 0.22$) and flatter NUV
+slopes, consistent with anhydrous silicate compositions.
+The same figure is in the Zenodo exploration notebook
+(\href{https://doi.org/10.5281/zenodo.19366681}
+{10.5281/zenodo.19366681}).
 
 \begin{figure}
 \plotone{figures/05_ecas_validation.png}
@@ -144,20 +145,6 @@ produces spectra consistent with ground-based photometry.
 Right: Mean spectrum of the ECAS-matched subset compared to the
 full GASP sample (gray), with the NUV-corrected region
 highlighted (purple shading).\label{fig:ecas}}
-\end{figure}
-
-\begin{figure}
-\plotone{figures/03_astar_vs_s1.png}
-\caption{SDSS $a^*$ color index vs.\ NUV spectral slope $s_1$
-(374--418~nm, in $\mu$m$^{-1}$) for 11,052 GASP asteroids with
-valid $s_1$ values, colored by NEOWISE geometric albedo $p_V$
-where available (gray points: no albedo data). Dashed vertical
-lines mark the C/ambiguous ($a^* = -0.10$) and
-ambiguous/S ($a^* = +0.10$) boundaries of
-\citet{Ivezic2002}. C-complex asteroids (left) show lower
-albedo and more negative $s_1$; S-complex asteroids (right)
-show higher albedo and flatter NUV
-slopes.\label{fig:scatter}}
 \end{figure}
 
 \section{Limitations}
