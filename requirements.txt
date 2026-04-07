@@ -1,3 +1,4 @@
+packaging>=21.0
 astroquery>=0.4.7
 astropy>=5.3
 pandas>=2.0
@@ -9,6 +10,6 @@ tqdm>=4.65
 jupyter>=1.0
 ipykernel>=6.0
 requests>=2.31
-space-rocks>=1.9
+space-rocks>=1.9.16
 ijson>=3.2
 scipy>=1.11

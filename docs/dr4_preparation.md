@@ -1,7 +1,7 @@
 # GASP — Gaia DR4 Preparation Notes
 
 ## DR4 release timeline
-Expected: end of 2026 (ESA confirmed)
+Expected: **late 2026** (December per current ESA planning; confirm on [Gaia](https://www.cosmos.esa.int/web/gaia/release) when announced)
 Coverage: 66 months of observations (vs 34 months in DR3)
 
 ## What changes in DR4

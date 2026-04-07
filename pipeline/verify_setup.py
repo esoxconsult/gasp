@@ -35,6 +35,18 @@ def main() -> int:
         print(pkg_version(tqdm, "tqdm"))
         print(pkg_version(rocks, "rocks"))
 
+        rocks_ver = getattr(rocks, "__version__", "0")
+        try:
+            from packaging.version import Version
+
+            if Version(rocks_ver) < Version("1.9.16"):
+                print(
+                    f"Warning: space-rocks >= 1.9.16 recommended (found {rocks_ver})",
+                    file=sys.stderr,
+                )
+        except Exception:
+            pass
+
         from astroquery.gaia import Gaia
 
         # ESA Gaia TAP (gea.esac.esa.int)

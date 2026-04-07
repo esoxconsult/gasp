@@ -25,7 +25,7 @@
 - rocks caches automatically — do not delete ~/.cache/rocks/
 
 ## Publication plan
-1. GitHub: MIT license, full code + documentation
-2. Zenodo: final catalog with DOI (citable dataset)
-3. Research Notes of the AAS: short data paper (~1000 words)
-4. Gaia Users Community: announcement on ESA mailing list
+1. GitHub: MIT license, full code + documentation — **done** (v1.1.0)
+2. Zenodo: final catalog with DOI — **done** (10.5281/zenodo.19366681)
+3. Research Notes of the AAS (RNAAS): short data paper — **submitted** (v3, final), awaiting decision
+4. Gaia Users Community: announcement on ESA mailing list — after RNAAS acceptance

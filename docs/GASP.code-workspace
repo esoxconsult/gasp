@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../esoxspace"
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}

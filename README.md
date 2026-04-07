@@ -3,6 +3,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19366681.svg)](https://doi.org/10.5281/zenodo.19366681)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
+[![Release](https://img.shields.io/badge/release-v1.1.0-blue.svg)](https://github.com/esoxconsult/gasp)
 
 A reproducible, open-source pipeline to download, correct,
 and cross-match asteroid reflectance spectra from the ESA
@@ -36,6 +37,18 @@ full taxonomic classification appeared at EPSC-DPS 2025
 infrastructure that was missing: download the data, apply the
 published corrections, cross-match with SDSS, enrich with
 families — all in one pipeline, fully documented.
+
+**RNAAS:** Short data paper submitted to *Research Notes of the AAS* (v3, final) — awaiting editorial decision. Developer/AI context: [`docs/PROJECT_CONTEXT.md`](docs/PROJECT_CONTEXT.md).
+
+## 🚀 GASP Enterprise (Esox Space)
+
+While this repository provides the core scientific data and correction pipelines, **Esox Space** maintains a high-fidelity commercial extension including:
+
+- **ML taxonomy classifications** for over 19,000 objects
+- **Orbital logistics & accessibility scoring** (JPL-integrated)
+- **Resource valuation & mining target priority lists**
+
+For commercial inquiries or custom prospecting reports: **vienna@esoxconsult.com**
 
 ## Pipeline
 
@@ -146,6 +159,7 @@ python pipeline/add_orbital_classes.py
 | Taxonomy | Mahlke et al. (2022) DOI:10.1051/0004-6361/202243587 |
 | Families | Nesvorný et al. (2015) DOI:10.1088/0004-6256/150/2/48 |
 | Albedo/diameter | Masiero et al. (2011) DOI:10.1088/0004-637X/741/2/68 |
+| ECAS validation | Zellner et al. (1985) Icarus 61, 355 |
 
 ## License
 
@@ -159,5 +173,9 @@ Data derived from:
 
 ## Author
 
-Werner Scheibenpflug (Austria)
+**Werner Scheibenpflug**, Vienna, Austria — [github.com/esoxconsult/gasp](https://github.com/esoxconsult/gasp)  
 Built with curiosity, a VPS, and Claude (Anthropic).
+
+## Machine learning taxonomy (optional, commercial extension)
+
+Baseline ML taxonomy and downstream prospecting scripts are maintained in the private **Esox Space** extension (not shipped in this public repository). For access or reports, see **GASP Enterprise (Esox Space)** above.
