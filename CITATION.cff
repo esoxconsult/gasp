@@ -23,6 +23,18 @@ keywords:
   - SDSS
   - planetary science
   - open science
+preferred-citation:
+  type: article
+  title: "GASP: A Corrected, Cross-matched Catalog of 19,190 Gaia DR3 Asteroid Reflectance Spectra"
+  authors:
+    - family-names: "Scheibenpflug"
+      given-names: "Werner"
+      affiliation: "Vienna, Austria"
+      country: AT
+  doi: "10.3847/2515-5172/ae5e45"
+  journal: "Research Notes of the AAS"
+  year: 2025
+
 references:
   - type: article
     authors:

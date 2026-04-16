@@ -1,5 +1,6 @@
 # GASP — Gaia Asteroid Spectral Pipeline
 
+[![DOI](https://img.shields.io/badge/RNAAS-10.3847%2F2515--5172%2Fae5e45-blue)](https://doi.org/10.3847/2515-5172/ae5e45)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19366681.svg)](https://doi.org/10.5281/zenodo.19366681)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
@@ -38,7 +39,7 @@ infrastructure that was missing: download the data, apply the
 published corrections, cross-match with SDSS, enrich with
 families — all in one pipeline, fully documented.
 
-**RNAAS:** Short data paper submitted to *Research Notes of the AAS* (v3, final) — awaiting editorial decision. Developer/AI context: [`docs/PROJECT_CONTEXT.md`](docs/PROJECT_CONTEXT.md).
+**RNAAS:** Published in *Research Notes of the AAS* — [DOI: 10.3847/2515-5172/ae5e45](https://doi.org/10.3847/2515-5172/ae5e45). Developer/AI context: [`docs/PROJECT_CONTEXT.md`](docs/PROJECT_CONTEXT.md).
 
 ## 🚀 GASP Enterprise (Esox Space)
 
@@ -160,6 +161,23 @@ python pipeline/add_orbital_classes.py
 | Families | Nesvorný et al. (2015) DOI:10.1088/0004-6256/150/2/48 |
 | Albedo/diameter | Masiero et al. (2011) DOI:10.1088/0004-637X/741/2/68 |
 | ECAS validation | Zellner et al. (1985) Icarus 61, 355 |
+
+## Citation
+
+If you use GASP in your research, please cite both the paper and the catalog:
+
+**Paper (RNAAS):**
+```
+Scheibenpflug, W. (2025). GASP: A Corrected, Cross-matched Catalog of 19,190
+Gaia DR3 Asteroid Reflectance Spectra. Research Notes of the AAS.
+DOI: 10.3847/2515-5172/ae5e45
+```
+
+**Catalog (Zenodo):**
+```
+Scheibenpflug, W. (2026). GASP — Gaia Asteroid Spectral Pipeline (v1.1.0).
+Zenodo. DOI: 10.5281/zenodo.19366681
+```
 
 ## License
 
