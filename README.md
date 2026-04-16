@@ -168,7 +168,7 @@ If you use GASP in your research, please cite both the paper and the catalog:
 
 **Paper (RNAAS):**
 ```
-Scheibenpflug, W. (2025). GASP: A Corrected, Cross-matched Catalog of 19,190
+Scheibenpflug, W. (2026). GASP: A Corrected, Cross-matched Catalog of 19,190
 Gaia DR3 Asteroid Reflectance Spectra. Research Notes of the AAS.
 DOI: 10.3847/2515-5172/ae5e45
 ```
