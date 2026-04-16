@@ -41,7 +41,7 @@ families — all in one pipeline, fully documented.
 
 **RNAAS:** Published in *Research Notes of the AAS* — [DOI: 10.3847/2515-5172/ae5e45](https://doi.org/10.3847/2515-5172/ae5e45). Developer/AI context: [`docs/PROJECT_CONTEXT.md`](docs/PROJECT_CONTEXT.md).
 
-## 🚀 GASP Enterprise (Esox Space)
+## GASP Enterprise (Esox Space)
 
 While this repository provides the core scientific data and correction pipelines, **Esox Space** maintains a high-fidelity commercial extension including:
 
