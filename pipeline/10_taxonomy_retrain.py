@@ -260,14 +260,13 @@ def main() -> None:
                   ~has_mahlke)
     ml_ok_flag = prob >= CONF_THRESHOLD
 
-    taxonomy_final = np.full(len(df), np.nan, dtype=object)
+    taxonomy_final = pd.array([pd.NA] * len(df), dtype="object")
     taxonomy_final[has_mahlke.values] = df.loc[has_mahlke, "taxonomy"].values
     for idx in df.index[has_pds]:
         mapped = map_pds(str(df.at[idx, "spectral_class_best"]))
         if mapped:
-            taxonomy_final[idx] = mapped
-    remaining = np.isnan(taxonomy_final.astype(str))
-    remaining = pd.Series(taxonomy_final).isna().values & ~has_mahlke.values & ~has_pds.values
+            taxonomy_final[df.index.get_loc(idx)] = mapped
+    remaining = pd.isna(taxonomy_final) & ~has_mahlke.values & ~has_pds.values
     taxonomy_final[remaining & ml_ok_flag] = pred[remaining & ml_ok_flag]
     df["taxonomy_final"] = taxonomy_final
 
