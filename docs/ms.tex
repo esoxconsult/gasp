@@ -49,7 +49,9 @@ The reproducible processing pipeline and the resulting catalog are archived on Z
 \section{Pipeline}
 
 GASP consists of eight Python scripts executing sequentially.
-Starting from the Gaia TAP server \citep{GaiaArchive2024},
+Starting from the Gaia Science
+Archive\footnote{\url{https://gea.esac.esa.int/archive/}}
+\citep{Galluccio2023},
 I download 968,288 rows (60,518 asteroids $\times$ 16 spectral
 bands) and restructure them into wide format (one row per asteroid).
 I apply the NUV correction of \citet{TinautRuano2023}, dividing
@@ -106,7 +108,7 @@ spectra are consistent with independent ground-based photometry.
 The negative sign reflects the inverse relationship between
 reflectance ratio and color index conventions.
 
-The catalog illustrates the SDSS $a^*$ color index
+Figure~\ref{fig:astar} shows the SDSS $a^*$ color index
 \citep[a C/S-complex separator;][]{Ivezic2002} plotted
 against the NUV slope $s_1$, colored by NEOWISE albedo.
 C-complex asteroids ($a^* < -0.10$) show lower albedo (mean $p_V \approx 0.06$) and more negative
@@ -114,11 +116,8 @@ $s_1$ values, consistent with hydrated, UV-absorbing
 primitive material. S-complex asteroids ($a^* > 0.10$) show
 higher albedo (mean $p_V \approx 0.22$) and flatter NUV
 slopes, consistent with anhydrous silicate compositions.
-The same figure is in the Zenodo exploration notebook
-(\href{https://doi.org/10.5281/zenodo.19366681}
-{10.5281/zenodo.19366681}).
 
-\begin{figure}
+\begin{figure*}
 \plotone{figures/05_ecas_validation.png}
 \caption{Left: ECAS $b-v$ color vs.\ GASP \texttt{refl\_418}
 (NUV-corrected reflectance at 418~nm) for the 83 asteroids
@@ -128,7 +127,23 @@ produces spectra consistent with ground-based photometry.
 Right: Mean spectrum of the ECAS-matched subset compared to the
 full GASP sample (gray), with the NUV-corrected region
 highlighted (purple shading).\label{fig:ecas}}
-\end{figure}
+\end{figure*}
+
+\begin{figure*}
+\plotone{figures/03_astar_vs_s1.png}
+\caption{SDSS $a^*$ color index \citep[C/S-complex
+separator;][]{Ivezic2002} vs.\ NUV slope $s_1$
+(374--418~nm) for all 19,190 GASP asteroids with both
+quantities available. Points are colored by NEOWISE albedo
+($p_V$; 22.3\% of the sample; gray: no NEOWISE match).
+Vertical dashed lines delineate the C-complex
+($a^* < -0.10$), ambiguous, and S-complex ($a^* > 0.10$)
+populations. C-complex objects show lower albedo
+(mean $p_V \approx 0.06$) and more negative $s_1$;
+S-complex objects show higher albedo
+(mean $p_V \approx 0.22$) and flatter NUV
+slopes.\label{fig:astar}}
+\end{figure*}
 
 \section{Limitations}
 

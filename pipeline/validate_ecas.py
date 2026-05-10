@@ -101,31 +101,33 @@ def main() -> int:
     mean_m = df_match[REFL_COLS].mean()
     mean_f = df_gasp[REFL_COLS].mean()
 
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    fig, axes = plt.subplots(1, 2, figsize=(7, 3.5))
 
-    axes[0].scatter(df_match["b_v_ecas"], df_match["refl_418"], alpha=0.6, s=30, color="steelblue")
-    axes[0].set_xlabel("ECAS b-v color (ground truth)")
-    axes[0].set_ylabel("GASP refl_418 (NUV-corrected)")
-    axes[0].set_title(f"ECAS vs GASP NUV\nr={r:.3f}, p={p:.4f}")
+    axes[0].scatter(df_match["b_v_ecas"], df_match["refl_418"], alpha=0.6, s=20, color="steelblue")
+    axes[0].set_xlabel("ECAS $b-v$ color (ground truth)", fontsize=12)
+    axes[0].set_ylabel("GASP refl\_418 (NUV-corrected)", fontsize=12)
+    axes[0].set_title(f"ECAS vs GASP NUV\n$r={r:.3f}$, $p={p:.4f}$", fontsize=12)
+    axes[0].tick_params(labelsize=12)
 
-    axes[1].plot(BAND_UM, mean_f.values, "gray", lw=2, label=f"Full GASP (n={n_gasp:,})")
+    axes[1].plot(BAND_UM, mean_f.values, "gray", lw=2, label=f"Full GASP ($n={n_gasp:,}$)")
     axes[1].plot(
         BAND_UM,
         mean_m.values,
         "steelblue",
         lw=2,
-        label=f"ECAS-matched (n={len(df_match):,})",
+        label=f"ECAS-matched ($n={len(df_match):,}$)",
     )
     axes[1].axvspan(0.374, 0.506, alpha=0.1, color="purple", label="NUV corrected")
-    axes[1].set_xlabel("Wavelength (µm)")
-    axes[1].set_ylabel("Mean reflectance")
-    axes[1].set_title("Mean spectrum: ECAS subset vs full GASP")
-    axes[1].legend(fontsize=9)
+    axes[1].set_xlabel("Wavelength ($\mu$m)", fontsize=12)
+    axes[1].set_ylabel("Mean reflectance", fontsize=12)
+    axes[1].set_title("Mean spectrum: ECAS subset vs full GASP", fontsize=12)
+    axes[1].legend(fontsize=11)
+    axes[1].tick_params(labelsize=12)
 
     plt.suptitle("GASP v1 — ECAS Validation", fontsize=13)
     plt.tight_layout()
     out_png = FIGURES_DIR / "05_ecas_validation.png"
-    plt.savefig(out_png, dpi=150, bbox_inches="tight")
+    plt.savefig(out_png, dpi=200, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_png}")
 
