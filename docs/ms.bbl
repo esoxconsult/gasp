@@ -1,67 +1,61 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{12}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
-\providecommand{\url}[1]{\href{#1}{#1}}
-\providecommand{\dodoi}[1]{doi:~\href{http://doi.org/#1}{\nolinkurl{#1}}}
-\providecommand{\doeprint}[1]{\href{http://ascl.net/#1}{\nolinkurl{http://ascl.net/#1}}}
-\providecommand{\doarXiv}[1]{\href{https://arxiv.org/abs/#1}{\nolinkurl{https://arxiv.org/abs/#1}}}
 
 \bibitem[{{Gaia Collaboration} {et~al.}(2023){Gaia Collaboration}, {Vallenari},
   {Brown}, {et~al.}}]{GaiaDR3_2023}
 {Gaia Collaboration}, {Vallenari}, A., {Brown}, A.~G.~A., {et~al.} 2023,
-  Astronomy and Astrophysics, 674, A1, \dodoi{10.1051/0004-6361/202243940}
+  Astronomy and Astrophysics, 674, A1
 
 \bibitem[{Galluccio {et~al.}(2023)Galluccio, Delbo, {De Angeli},
   {et~al.}}]{Galluccio2023}
 Galluccio, L., Delbo, M., {De Angeli}, F., {et~al.} 2023, Astronomy and
-  Astrophysics, 674, A35, \dodoi{10.1051/0004-6361/202243767}
+  Astrophysics, 674, A35
 
 \bibitem[{Ginsburg {et~al.}(2019)Ginsburg, Sip{\H o}cz, Brasseur,
   {et~al.}}]{Ginsburg2019}
 Ginsburg, A., Sip{\H o}cz, B.~M., Brasseur, C.~E., {et~al.} 2019, The
-  Astronomical Journal, 157, 98, \dodoi{10.3847/1538-3881/aafc33}
+  Astronomical Journal, 157, 98
 
 \bibitem[{Ivezi{\'c} {et~al.}(2002)Ivezi{\'c}, Juri{\'c}, Lupton, Tabachnik, \&
   Quinn}]{Ivezic2002}
 Ivezi{\'c}, {\v{Z}}., Juri{\'c}, M., Lupton, R.~H., Tabachnik, S., \& Quinn, T.
   2002, in Proc. SPIE, Vol. 4836, Survey and Other Telescope Technologies and
-  Discoveries, 98, \dodoi{10.1117/12.460800}
+  Discoveries, 98
 
 \bibitem[{Ivezi{\'c} {et~al.}(2001)Ivezi{\'c}, Tabachnik, Rafikov,
   {et~al.}}]{Ivezic2001}
 Ivezi{\'c}, {\v{Z}}., Tabachnik, S., Rafikov, R., {et~al.} 2001, The
-  Astronomical Journal, 122, 2749, \dodoi{10.1086/323452}
+  Astronomical Journal, 122, 2749
 
 \bibitem[{Mahlke {et~al.}(2022)Mahlke, Carry, \& Mattei}]{Mahlke2022}
 Mahlke, M., Carry, B., \& Mattei, P.-A. 2022, Astronomy and Astrophysics, 665,
-  A26, \dodoi{10.1051/0004-6361/202243587}
+  A26
 
 \bibitem[{Masiero {et~al.}(2011)Masiero, Mainzer, Grav, {et~al.}}]{Masiero2011}
 Masiero, J.~R., Mainzer, A.~K., Grav, T., {et~al.} 2011, The Astrophysical
-  Journal, 741, 68, \dodoi{10.1088/0004-637X/741/2/68}
+  Journal, 741, 68
 
 \bibitem[{Nesvorn{\'y} {et~al.}(2015)Nesvorn{\'y}, Bro{\v{z}}, \&
   Carruba}]{Nesvorny2015}
 Nesvorn{\'y}, D., Bro{\v{z}}, M., \& Carruba, V. 2015, in Asteroids {IV}, ed.
   P.~Michel, F.~E. DeMeo, \& W.~F. Bottke (Tucson: University of Arizona
-  Press), 297--321.
-\newblock \doarXiv{1502.01628}
+  Press), 297--321
 
 \bibitem[{Scheibenpflug(2026)}]{scheibenpflug_2026_gasp}
 Scheibenpflug, W. 2026, {GASP: Gaia Asteroid Spectral Pipeline}, Software,
-  Zenodo, v1.0.0, \dodoi{10.5281/zenodo.19366681}
+  Zenodo, v1.0.0
 
 \bibitem[{Tinaut-Ruano {et~al.}(2024)Tinaut-Ruano, Tatsumi, de~Le{\'o}n,
   {et~al.}}]{TinautRuano2024}
 Tinaut-Ruano, F., Tatsumi, E., de~Le{\'o}n, J., {et~al.} 2024, Astronomy and
-  Astrophysics, 686, A76, \dodoi{10.1051/0004-6361/202348752}
+  Astrophysics, 686, A76
 
 \bibitem[{Tinaut-Ruano {et~al.}(2023)Tinaut-Ruano, Tatsumi, Tanga,
   {et~al.}}]{TinautRuano2023}
 Tinaut-Ruano, F., Tatsumi, E., Tanga, P., {et~al.} 2023, Astronomy and
-  Astrophysics, 669, L14, \dodoi{10.1051/0004-6361/202245134}
+  Astrophysics, 669, L14
 
 \bibitem[{Zellner {et~al.}(1985)Zellner, Tholen, \& Tedesco}]{Zellner1985}
-Zellner, B., Tholen, D.~J., \& Tedesco, E.~F. 1985, Icarus, 61, 355,
-  \dodoi{10.1016/0019-1035(85)90133-2}
+Zellner, B., Tholen, D.~J., \& Tedesco, E.~F. 1985, Icarus, 61, 355
 
 \end{thebibliography}
