@@ -101,35 +101,41 @@ def main() -> int:
     mean_m = df_match[REFL_COLS].mean()
     mean_f = df_gasp[REFL_COLS].mean()
 
-    fig, axes = plt.subplots(1, 2, figsize=(7, 3.5))
+    # A&A two-column width = 18 cm; fonts ≥ 12 pt; DPI 300; markers ≥ 6 pt (s≥30)
+    fig, axes = plt.subplots(1, 2, figsize=(18 / 2.54, 3.5))
 
-    axes[0].scatter(df_match["b_v_ecas"], df_match["refl_418"], alpha=0.6, s=20, color="steelblue")
+    axes[0].scatter(df_match["b_v_ecas"], df_match["refl_418"], alpha=0.6, s=30, color="steelblue")
     axes[0].set_xlabel("ECAS $b-v$ color (ground truth)", fontsize=12)
-    axes[0].set_ylabel("GASP refl\_418 (NUV-corrected)", fontsize=12)
+    axes[0].set_ylabel(r"GASP refl$_{418}$ (NUV-corrected)", fontsize=12)
     axes[0].set_title(f"ECAS vs GASP NUV\n$r={r:.3f}$, $p={p:.4f}$", fontsize=12)
     axes[0].tick_params(labelsize=12)
 
-    axes[1].plot(BAND_UM, mean_f.values, "gray", lw=2, label=f"Full GASP ($n={n_gasp:,}$)")
+    axes[1].plot(BAND_UM, mean_f.values, "gray", lw=1.5, label=f"Full GASP ($n={n_gasp:,}$)")
     axes[1].plot(
         BAND_UM,
         mean_m.values,
         "steelblue",
-        lw=2,
+        lw=1.5,
         label=f"ECAS-matched ($n={len(df_match):,}$)",
     )
     axes[1].axvspan(0.374, 0.506, alpha=0.1, color="purple", label="NUV corrected")
-    axes[1].set_xlabel("Wavelength ($\mu$m)", fontsize=12)
+    axes[1].set_xlabel(r"Wavelength ($\mu$m)", fontsize=12)
     axes[1].set_ylabel("Mean reflectance", fontsize=12)
     axes[1].set_title("Mean spectrum: ECAS subset vs full GASP", fontsize=12)
-    axes[1].legend(fontsize=11)
+    axes[1].legend(fontsize=12)
     axes[1].tick_params(labelsize=12)
 
-    plt.suptitle("GASP v1 — ECAS Validation", fontsize=13)
     plt.tight_layout()
     out_png = FIGURES_DIR / "05_ecas_validation.png"
-    plt.savefig(out_png, dpi=200, bbox_inches="tight")
+    plt.savefig(out_png, dpi=300, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_png}")
+
+    import shutil
+    docs_fig = Path("docs/figures")
+    docs_fig.mkdir(parents=True, exist_ok=True)
+    shutil.copy(out_png, docs_fig / out_png.name)
+    print(f"Copied to: {docs_fig / out_png.name}")
 
     mean418_m = float(mean_m["refl_418"])
     mean418_f = float(mean_f["refl_418"])
