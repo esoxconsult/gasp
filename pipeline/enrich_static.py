@@ -354,7 +354,7 @@ def main() -> int:
         "gasp_phase": "06b_enrich_static",
         "catalogs_used": [
             "Mahlke et al. (2022) DOI:10.1051/0004-6361/202243587",
-            "Nesvorny et al. (2015) DOI:10.1088/0004-6256/150/2/48",
+            "Nesvorny, Broz & Carruba (2015) Asteroids IV pp.297-321 arXiv:1502.01628",
             "Masiero et al. (2017) ApJS 221/19",
         ],
         "family_source_note": fam_src,
